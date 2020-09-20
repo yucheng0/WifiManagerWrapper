@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), WifiScanCallbackResult, WifiConnectivi
 //一定要加下面這一行, 這是關鍵性的一個動作
         //https://stackoverflow.com/questions/47480732/what-is-the-purpose-of-the-condition-if-build-version-sdk-int-build-version
      //M = android 6.0
+        // https://ithelp.ithome.com.tw/articles/10204305        這個是看權限的方式
         Log.d(TAG, "Build.VERSION.SDK_INT: ${Build.VERSION.SDK_INT} ")  // samsung s8 = api 28
         Log.d(TAG, "Build.VERSION_CODES.M:${Build.VERSION_CODES.M} ")   // api 23
         Log.d(TAG, "checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION): ${checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)}")
