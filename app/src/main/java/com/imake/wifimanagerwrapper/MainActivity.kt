@@ -1,10 +1,12 @@
 package com.imake.wifimanagerwrapper
 
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
 import android.net.wifi.ScanResult
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.imake.wifimanagerwrapper.util.wifiwrapper.WifiManagerWrapper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.wifi_recycle_view.*
 
+var TAG = "myTag"
 class MainActivity : AppCompatActivity(), WifiScanCallbackResult, WifiConnectivityCallbackResult {
 
     private lateinit var networkNameToConnect: String
@@ -24,8 +27,19 @@ class MainActivity : AppCompatActivity(), WifiScanCallbackResult, WifiConnectivi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+//一定要加下面這一行, 這是關鍵性的一個動作
+        //https://stackoverflow.com/questions/47480732/what-is-the-purpose-of-the-condition-if-build-version-sdk-int-build-version
+     //M = android 6.0
+        Log.d(TAG, "Build.VERSION.SDK_INT: ${Build.VERSION.SDK_INT} ")  // samsung s8 = api 28
+        Log.d(TAG, "Build.VERSION_CODES.M:${Build.VERSION_CODES.M} ")   // api 23
+        Log.d(TAG, "checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION): ${checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)}")
+        Log.d(TAG, "PackageManager.PERMISSION_GRANTED: ${PackageManager.PERMISSION_GRANTED}")
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "Open ACCESS_COARSE_LOCATION")
+// 打開這個權限才能用, 這個也要在Manifest 定義才行
             requestPermissions(arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION), 0)
+
             //do something if have the permissions
         } else {
             //do something, permission was previously granted; or legacy device
